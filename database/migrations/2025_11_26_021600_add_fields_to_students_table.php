@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('attendances', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
+        Schema::table('students', function (Blueprint $table) {
+            $table->string('name');
             $table->foreignId('class_id')->constrained('class_models')->onDelete('cascade');
-            $table->enum('status', ['Hadir', 'Terlambat', 'Pulang']);
-            $table->datetime('time');
-            $table->timestamps();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
         });
     }
 
@@ -26,6 +24,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('attendances');
+        Schema::table('students', function (Blueprint $table) {
+            $table->dropForeign(['class_id']);
+            $table->dropColumn(['name', 'class_id', 'email', 'phone']);
+        });
     }
 };

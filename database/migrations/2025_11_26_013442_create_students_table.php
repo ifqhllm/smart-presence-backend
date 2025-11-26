@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
+            $table->string('nis')->unique();
+            $table->string('password');
+            $table->text('photo_embedding')->nullable();
             $table->timestamps();
         });
     }
